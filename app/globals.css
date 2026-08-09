@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+/* ==============================================================
+   AEGIS AI — design tokens
+   Palette is semantic: severity colors carry real meaning (they
+   match the classifier's own severity levels), not decoration.
+   ============================================================== */
+:root {
+  --ink: #0a0d13;
+  --surface: #10141d;
+  --surface-raised: #161b28;
+  --border-subtle: #212736;
+  --border-strong: #2c3346;
+
+  --text-primary: #e8eaf1;
+  --text-muted: #8891a3;
+  --text-faint: #565f74;
+
+  --signal: #4cd3db;       /* calm, benign flow */
+  --accent: #7c8cf8;       /* interactive accent — links, CTAs */
+
+  --severity-low: #34c98e;
+  --severity-medium: #e8a73b;
+  --severity-high: #e8763b;
+  --severity-critical: #e8453b;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-strong: var(--border-strong);
+  --color-text-primary: var(--text-primary);
+  --color-text-muted: var(--text-muted);
+  --color-text-faint: var(--text-faint);
+  --color-signal: var(--signal);
+  --color-accent: var(--accent);
+  --color-severity-low: var(--severity-low);
+  --color-severity-medium: var(--severity-medium);
+  --color-severity-high: var(--severity-high);
+  --color-severity-critical: var(--severity-critical);
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--ink);
+  color: var(--text-primary);
+  font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--ink);
+}
+
+/* Respect reduced-motion preference everywhere */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Visible keyboard focus, everywhere */
+:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.font-mono-num {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-feature-settings: "tnum" 1;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 rgba(232, 69, 59, 0); }
+  50% { box-shadow: 0 0 22px rgba(232, 69, 59, 0.35); }
+}
