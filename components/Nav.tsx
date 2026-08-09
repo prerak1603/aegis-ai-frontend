@@ -21,6 +21,12 @@ export default function Nav() {
             How it works
           </Link>
           <Link
+            href="/history"
+            className="text-text-muted hover:text-text-primary transition-colors hidden sm:inline"
+          >
+            Past reports
+          </Link>
+          <Link
             href="/audit"
             className="px-4 py-2 rounded-md bg-accent text-ink font-medium hover:opacity-90 transition-opacity"
           >

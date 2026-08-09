@@ -2,36 +2,23 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Loader2, AlertTriangle, CheckCircle2, Circle } from "lucide-react";
+import { Loader2, AlertTriangle, CheckCircle2, Circle, Download } from "lucide-react";
 import Nav from "@/components/Nav";
 import UploadZone from "@/components/UploadZone";
 import MetricCard from "@/components/MetricCard";
 import AttackChart from "@/components/AttackChart";
 import ThreatCard from "@/components/ThreatCard";
+import { riskLevel, RISK_COLOR } from "@/lib/risk";
 import type { AnalyzeResponse, HealthResponse } from "@/lib/types";
 
-type RiskLevel = "LOW" | "MODERATE" | "HIGH" | "CRITICAL";
-
-function riskLevel(attackRate: number): RiskLevel {
-  if (attackRate > 20) return "CRITICAL";
-  if (attackRate > 5) return "HIGH";
-  if (attackRate > 0) return "MODERATE";
-  return "LOW";
-}
-
-const RISK_COLOR: Record<RiskLevel, string> = {
-  LOW: "var(--color-severity-low)",
-  MODERATE: "var(--color-severity-medium)",
-  HIGH: "var(--color-severity-high)",
-  CRITICAL: "var(--color-severity-critical)",
-};
-
 export default function AuditPage() {
+  const [clientName, setClientName] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [results, setResults] = useState<AnalyzeResponse | null>(null);
   const [health, setHealth] = useState<HealthResponse | null>(null);
+  const [exportingPdf, setExportingPdf] = useState(false);
 
   useEffect(() => {
     fetch("/api/health")
@@ -69,6 +56,17 @@ export default function AuditPage() {
     }
   }
 
+  async function handleExportPdf() {
+    if (!results) return;
+    setExportingPdf(true);
+    try {
+      const { generateAuditPdf } = await import("@/lib/generatePdf");
+      generateAuditPdf(clientName, results);
+    } finally {
+      setExportingPdf(false);
+    }
+  }
+
   const totalFlows = results?.total_flows_analyzed ?? 0;
   const totalAttacks = results?.total_attacks_detected ?? 0;
   const attackRate = totalFlows > 0 ? (totalAttacks / totalFlows) * 100 : 0;
@@ -95,6 +93,19 @@ export default function AuditPage() {
         </p>
 
         <div className="space-y-4">
+          <div>
+            <label className="block text-xs uppercase tracking-wide text-text-muted mb-2">
+              Client / company name (used on the exported report)
+            </label>
+            <input
+              type="text"
+              value={clientName}
+              onChange={(e) => setClientName(e.target.value)}
+              placeholder="e.g. Acme Corp"
+              className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-2.5 text-sm text-text-primary placeholder:text-text-faint focus:border-signal outline-none"
+            />
+          </div>
+
           <UploadZone
             selectedFile={file}
             onFileSelected={setFile}
@@ -204,6 +215,21 @@ export default function AuditPage() {
                 </div>
               </div>
             )}
+
+            <div>
+              <button
+                onClick={handleExportPdf}
+                disabled={exportingPdf}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border-strong text-text-primary text-sm font-medium hover:bg-surface-raised transition-colors disabled:opacity-50"
+              >
+                {exportingPdf ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Download className="w-4 h-4" />
+                )}
+                Download full audit report (PDF)
+              </button>
+            </div>
           </motion.div>
         )}
       </main>

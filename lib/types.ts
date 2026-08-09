@@ -86,3 +86,24 @@ export interface ApiErrorResponse {
   detail?: string;
   error?: string;
 }
+
+export interface UploadHistoryItem {
+  id: string;
+  filename: string;
+  detected_format: string | null;
+  total_flows: number;
+  total_attacks: number;
+  status: string;
+  created_at: string;
+}
+
+export interface DetectionHistoryItem {
+  id: string;
+  upload_id: string;
+  attack_type: string;
+  confidence: number;
+  severity: string | null;
+  narrative: string | null;
+  recommendation: string | null;
+  created_at: string;
+}
