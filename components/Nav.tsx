@@ -2,8 +2,11 @@
 
 import Link from "next/link";
 import { Shield } from "lucide-react";
+import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 
 export default function Nav() {
+  const { isSignedIn, isLoaded } = useUser();
+
   return (
     <nav className="w-full border-b border-border-subtle bg-ink/80 backdrop-blur-md sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -20,18 +23,39 @@ export default function Nav() {
           >
             How it works
           </Link>
-          <Link
-            href="/history"
-            className="text-text-muted hover:text-text-primary transition-colors hidden sm:inline"
-          >
-            Past reports
-          </Link>
-          <Link
-            href="/audit"
-            className="px-4 py-2 rounded-md bg-accent text-ink font-medium hover:opacity-90 transition-opacity"
-          >
-            Run an audit
-          </Link>
+
+          {/* Avoid a flash of the wrong state before Clerk has loaded */}
+          {!isLoaded ? null : isSignedIn ? (
+            <>
+              <Link
+                href="/history"
+                className="text-text-muted hover:text-text-primary transition-colors hidden sm:inline"
+              >
+                Past reports
+              </Link>
+              <Link
+                href="/audit"
+                className="px-4 py-2 rounded-md bg-accent text-ink font-medium hover:opacity-90 transition-opacity"
+              >
+                Run an audit
+              </Link>
+              <UserButton />
+            </>
+          ) : (
+            <>
+              <SignInButton mode="modal">
+                <button className="text-text-muted hover:text-text-primary transition-colors text-sm">
+                  Sign in
+                </button>
+              </SignInButton>
+              <Link
+                href="/sign-up"
+                className="px-4 py-2 rounded-md bg-accent text-ink font-medium hover:opacity-90 transition-opacity"
+              >
+                Get started
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

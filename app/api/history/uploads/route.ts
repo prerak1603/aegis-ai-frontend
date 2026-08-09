@@ -1,14 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getUserApiKey } from "@/lib/getUserApiKey";
 
 const API_BASE_URL = process.env.AEGIS_API_URL ?? "https://aegis-ai-v2.onrender.com";
-const API_KEY = process.env.AEGIS_API_KEY;
 
 export async function GET(req: NextRequest) {
-  if (!API_KEY) {
-    return NextResponse.json(
-      { error: "Server misconfigured: AEGIS_API_KEY is not set." },
-      { status: 500 }
-    );
+  const keyLookup = await getUserApiKey();
+  if (!keyLookup.ok) {
+    return NextResponse.json({ error: keyLookup.error }, { status: keyLookup.status });
   }
 
   const limit = req.nextUrl.searchParams.get("limit") ?? "50";
@@ -17,7 +15,7 @@ export async function GET(req: NextRequest) {
     const upstream = await fetch(
       `${API_BASE_URL}/history/uploads?limit=${encodeURIComponent(limit)}`,
       {
-        headers: { "X-API-Key": API_KEY },
+        headers: { "X-API-Key": keyLookup.apiKey },
         cache: "no-store",
       }
     );

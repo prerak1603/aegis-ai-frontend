@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ClerkProvider } from "@clerk/nextjs";
 import "@fontsource/ibm-plex-sans/400.css";
 import "@fontsource/ibm-plex-sans/500.css";
 import "@fontsource/ibm-plex-sans/600.css";
@@ -16,10 +17,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className="h-full antialiased">
-      <body className="min-h-full flex flex-col bg-ink text-text-primary">
-        {children}
-      </body>
-    </html>
+    <ClerkProvider
+      appearance={{
+        variables: {
+          colorPrimary: "#7c8cf8",
+        },
+      }}
+    >
+      <html lang="en" className="h-full antialiased">
+        <body className="min-h-full flex flex-col bg-ink text-text-primary">
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
