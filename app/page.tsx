@@ -1,28 +1,43 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Radar, Fingerprint, MessageSquareText, ListChecks } from "lucide-react";
+import {
+  ArrowRight,
+  UploadCloud,
+  Radar,
+  MessageSquareText,
+  ListChecks,
+} from "lucide-react";
 import Nav from "@/components/Nav";
 import Hero3D from "@/components/Hero3D";
+import StatRow from "@/components/StatRow";
+import FadeIn from "@/components/FadeIn";
 
-const PIPELINE = [
+export const metadata: Metadata = {
+  title: "Aegis AI — AI-Powered Network Intrusion Detection System (NIDS)",
+  description:
+    "Aegis AI is an AI-powered network intrusion detection system (NIDS) that detects attacks in real time and explains them in plain English — not just raw alerts. Try the live demo.",
+};
+
+const HOW_IT_WORKS = [
   {
-    icon: Radar,
-    title: "Classify",
-    body: "A stacked ensemble (Random Forest, XGBoost, LightGBM) scores every flow across 13 attack categories in under 40ms.",
+    icon: UploadCloud,
+    title: "Upload",
+    body: "Drop in a CICFlowMeter-formatted CSV of your network flows.",
   },
   {
-    icon: Fingerprint,
-    title: "Attribute",
-    body: "Flags the destination port, likely service, and any host-level context available in the source data.",
+    icon: Radar,
+    title: "Detect",
+    body: "A 4-model ML ensemble classifies each flow across 13 attack categories.",
   },
   {
     icon: MessageSquareText,
-    title: "Explain",
-    body: "A RAG-backed agent grounds its reasoning in your knowledge base before writing a plain-language narrative.",
+    title: "Understand",
+    body: "An AI agent analyzes the highest-confidence threats and writes a clear, human-readable report.",
   },
   {
     icon: ListChecks,
-    title: "Recommend",
-    body: "Every flagged flow gets a concrete action, an urgency level, and whether it's safe to auto-block.",
+    title: "Act",
+    body: "Get severity, context, and a recommended response — ready to export as a PDF.",
   },
 ];
 
@@ -32,103 +47,158 @@ export default function Home() {
       <Nav />
 
       {/* HERO */}
-      <section className="relative h-[86vh] min-h-[560px] overflow-hidden border-b border-border-subtle">
+      <section className="relative h-[86vh] min-h-[620px] overflow-hidden border-b border-border-subtle">
         <Hero3D />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/10 to-ink/40 pointer-events-none" />
         <div className="relative z-10 max-w-6xl mx-auto px-6 h-full flex flex-col justify-center">
           <p className="text-signal text-sm font-mono-num tracking-wide mb-4">
             NETWORK FLOW ANALYSIS · REAL-TIME CLASSIFICATION
           </p>
-          <h1 className="text-4xl sm:text-6xl font-semibold tracking-tight max-w-2xl leading-[1.05]">
-            Most traffic is calm.{" "}
-            <span className="text-text-muted">Aegis finds what isn&apos;t.</span>
+          <h1 className="text-4xl sm:text-6xl font-semibold tracking-tight max-w-3xl leading-[1.05]">
+            AI-Powered Network Intrusion Detection System (NIDS)
           </h1>
           <p className="text-text-muted text-lg max-w-xl mt-6 leading-relaxed">
-            Upload a network flow export. Aegis classifies every flow, attributes
-            the threat, and tells you — in plain language — exactly what to do
-            about it.
+            Most tools just flag &ldquo;suspicious traffic.&rdquo; Aegis AI
+            tells you exactly what happened, how confident it is, and what to
+            do next — automatically.
           </p>
-          <div className="flex items-center gap-4 mt-8">
+          <div className="flex flex-wrap items-center gap-4 mt-8">
             <Link
               href="/audit"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-accent text-ink font-medium hover:opacity-90 transition-opacity"
             >
-              Run a live audit
+              Run a Live Audit
               <ArrowRight className="w-4 h-4" />
             </Link>
             <a
-              href="#pipeline"
-              className="text-text-muted hover:text-text-primary text-sm transition-colors"
+              href="#how-it-works"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border-strong text-text-primary hover:border-accent transition-colors"
             >
-              See how it works
+              See How It Works
             </a>
+          </div>
+          <div className="mt-5 text-xs text-text-faint leading-relaxed space-y-0.5">
+            <p>
+              ⚡ First request may take ~30–60s to spin up (free-tier
+              hosting) — after that, it&apos;s fast.
+            </p>
+            <p>📁 Max file size: 2MB / 2,000 rows per upload.</p>
           </div>
         </div>
       </section>
 
-      {/* PIPELINE — a real sequence: this is the actual request path */}
-      <section id="pipeline" className="max-w-6xl mx-auto px-6 py-24">
-        <p className="text-signal text-sm font-mono-num tracking-wide mb-3">
-          THE PIPELINE
-        </p>
-        <h2 className="text-2xl sm:text-3xl font-semibold mb-12 max-w-lg">
-          One upload triggers all four steps, in order, on every flagged flow.
-        </h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {PIPELINE.map((step, i) => (
-            <div
-              key={step.title}
-              className="rounded-xl border border-border-subtle bg-surface p-6"
+      {/* STAT ROW */}
+      <StatRow />
+
+      {/* WHAT IS A NIDS */}
+      <FadeIn>
+        <section className="max-w-6xl mx-auto px-6 py-24">
+          <div className="max-w-3xl">
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-8">
+              What Is a Network Intrusion Detection System (NIDS)?
+            </h2>
+            <p className="text-text-muted text-lg leading-relaxed">
+              A network intrusion detection system (NIDS) monitors network
+              traffic for signs of attacks — unauthorized access, DDoS
+              floods, port scans, and more. Traditional NIDS tools are good
+              at flagging that something looks wrong. They&apos;re not good
+              at explaining why, or what a human should actually do about it.
+            </p>
+            <p className="text-text-muted text-lg leading-relaxed mt-6">
+              Aegis AI is built differently. It pairs a trained machine
+              learning ensemble with an AI agent that reads the detection
+              and writes a real incident report — severity, context, and a
+              recommended next step — the same judgment a security analyst
+              would apply, generated in seconds.
+            </p>
+          </div>
+        </section>
+      </FadeIn>
+
+      {/* HOW IT WORKS */}
+      <section
+        id="how-it-works"
+        className="border-y border-border-subtle bg-surface/40"
+      >
+        <div className="max-w-6xl mx-auto px-6 py-24">
+          <FadeIn>
+            <p className="text-signal text-sm font-mono-num tracking-wide mb-3">
+              THE PIPELINE
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-12 max-w-lg">
+              From Raw Traffic to a Real Answer
+            </h2>
+          </FadeIn>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {HOW_IT_WORKS.map((step, i) => (
+              <FadeIn key={step.title} delay={i * 0.08}>
+                <div className="h-full rounded-xl border border-border-subtle bg-surface p-6">
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="text-xs font-mono-num text-text-faint">
+                      0{i + 1}
+                    </span>
+                    <step.icon
+                      className="w-4 h-4 text-signal"
+                      strokeWidth={1.75}
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h3 className="font-semibold text-text-primary mb-2">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm text-text-muted leading-relaxed">
+                    {step.body}
+                  </p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* WHY IT'S DIFFERENT */}
+      <FadeIn>
+        <section className="max-w-6xl mx-auto px-6 py-24">
+          <div className="max-w-3xl">
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-8">
+              Built to Survive Production, Not Just a Demo
+            </h2>
+            <p className="text-text-muted text-lg leading-relaxed">
+              Most AI security demos work great until real traffic hits
+              them. Aegis AI is live, with real signed-up users — and
+              it&apos;s already been through the failures that matter: a
+              production memory crash, a retrieval architecture rebuilt from
+              scratch, and a concurrency fix that cut response time
+              dramatically.
+            </p>
+            <Link
+              href="/blog/production-story"
+              className="inline-flex items-center gap-2 mt-6 text-signal hover:underline"
             >
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-xs font-mono-num text-text-faint">
-                  0{i + 1}
-                </span>
-                <step.icon className="w-4 h-4 text-signal" strokeWidth={1.75} />
-              </div>
-              <h3 className="font-semibold text-text-primary mb-2">
-                {step.title}
-              </h3>
-              <p className="text-sm text-text-muted leading-relaxed">
-                {step.body}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+              Read the full story
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </section>
+      </FadeIn>
 
-      {/* STATS */}
-      <section className="border-y border-border-subtle bg-surface/40">
-        <div className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-2 sm:grid-cols-4 gap-8">
-          {[
-            ["98.43%", "Macro F1-score"],
-            ["99.88%", "Accuracy"],
-            ["13", "Attack categories"],
-            ["<40ms", "Inference per flow"],
-          ].map(([value, label]) => (
-            <div key={label}>
-              <p className="text-3xl font-semibold font-mono-num text-text-primary">
-                {value}
-              </p>
-              <p className="text-sm text-text-muted mt-1">{label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* SCOPE NOTE */}
-      <section className="max-w-6xl mx-auto px-6 py-20">
-        <div className="max-w-2xl">
-          <h2 className="text-xl font-semibold mb-4">Scope & limitations</h2>
-          <p className="text-text-muted leading-relaxed text-sm">
-            Aegis analyzes network-layer flow metadata — it does not cover
-            endpoint security, application code, or physical security. It's
-            optimized for CICFlowMeter-formatted exports, and benefits from a
-            short calibration period against your own traffic baseline in a
-            new deployment.
-          </p>
-        </div>
-      </section>
+      {/* FOOTER CTA */}
+      <FadeIn>
+        <section className="max-w-6xl mx-auto px-6 pb-24">
+          <div className="rounded-2xl border border-border-subtle bg-surface px-8 py-16 text-center">
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-8">
+              See It Catch a Real Attack
+            </h2>
+            <Link
+              href="/audit"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-accent text-ink font-medium hover:opacity-90 transition-opacity"
+            >
+              Run a Live Audit — Free
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </section>
+      </FadeIn>
 
       <footer className="border-t border-border-subtle">
         <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row justify-between gap-4 text-sm text-text-muted">

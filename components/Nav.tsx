@@ -18,7 +18,7 @@ export default function Nav() {
         </Link>
         <div className="flex items-center gap-6 text-sm">
           <Link
-            href="/#pipeline"
+            href="/#how-it-works"
             className="text-text-muted hover:text-text-primary transition-colors hidden sm:inline"
           >
             How it works
