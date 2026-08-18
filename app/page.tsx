@@ -1,22 +1,20 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import {
-  ArrowRight,
-  UploadCloud,
-  Radar,
-  MessageSquareText,
-  ListChecks,
-} from "lucide-react";
+import { ArrowRight, UploadCloud, Radar, MessageSquareText, ListChecks } from "lucide-react";
 import Nav from "@/components/Nav";
-import Hero3D from "@/components/Hero3D";
+import Hero3DLazy from "@/components/Hero3DLazy";
 import HeroTerminalTicker from "@/components/HeroTerminalTicker";
 import StatRow from "@/components/StatRow";
-import FadeIn from "@/components/FadeIn";
+import TiltReveal from "@/components/TiltReveal";
+import CursorSpotlight from "@/components/CursorSpotlight";
+import CtaLink from "@/components/CtaLink";
+import Faq from "@/components/Faq";
+import { FAQ_ENTRIES } from "@/lib/faq";
 
 export const metadata: Metadata = {
   title: "Aegis AI — AI-Powered Network Intrusion Detection System (NIDS)",
   description:
     "Aegis AI is an AI-powered network intrusion detection system (NIDS) that detects attacks in real time and explains them in plain English — not just raw alerts. Try the live demo.",
+  alternates: { canonical: "/" },
 };
 
 const HOW_IT_WORKS = [
@@ -42,14 +40,54 @@ const HOW_IT_WORKS = [
   },
 ];
 
+const softwareApplicationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Aegis AI",
+  applicationCategory: "SecurityApplication",
+  operatingSystem: "Any (web-based)",
+  description:
+    "Aegis AI is an AI-powered network intrusion detection system (NIDS) that classifies network flows across 13 attack categories and generates plain-English incident reports.",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+    description: "Free live demo audit",
+  },
+  url: "https://aegis-ai-frontend-tau.vercel.app",
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQ_ENTRIES.map((entry) => ({
+    "@type": "Question",
+    name: entry.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: entry.answer,
+    },
+  })),
+};
+
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+
+      <CursorSpotlight />
       <Nav />
 
       {/* HERO */}
       <section className="relative h-[86vh] min-h-[620px] overflow-hidden border-b border-border-subtle">
-        <Hero3D />
+        <Hero3DLazy />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/10 to-ink/40 pointer-events-none" />
         <div className="relative z-10 max-w-6xl mx-auto px-6 h-full flex flex-col justify-center">
           <p className="text-signal text-sm font-mono-num tracking-wide mb-4">
@@ -64,19 +102,21 @@ export default function Home() {
             do next — automatically.
           </p>
           <div className="flex flex-wrap items-center gap-4 mt-8">
-            <Link
+            <CtaLink
               href="/audit"
+              ctaId="hero_run_audit"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-accent text-ink font-medium hover:opacity-90 transition-opacity"
             >
               Run a Live Audit
               <ArrowRight className="w-4 h-4" />
-            </Link>
-            <a
+            </CtaLink>
+            <CtaLink
               href="#how-it-works"
+              ctaId="hero_how_it_works"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border-strong text-text-primary hover:border-accent transition-colors"
             >
               See How It Works
-            </a>
+            </CtaLink>
           </div>
           <div className="mt-5 text-xs text-text-faint leading-relaxed space-y-0.5">
             <p>
@@ -95,7 +135,7 @@ export default function Home() {
       <StatRow />
 
       {/* WHAT IS A NIDS */}
-      <FadeIn>
+      <TiltReveal direction="left">
         <section className="max-w-6xl mx-auto px-6 py-24">
           <div className="max-w-3xl">
             <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-8">
@@ -117,7 +157,7 @@ export default function Home() {
             </p>
           </div>
         </section>
-      </FadeIn>
+      </TiltReveal>
 
       {/* HOW IT WORKS */}
       <section
@@ -125,17 +165,17 @@ export default function Home() {
         className="border-y border-border-subtle bg-surface/40"
       >
         <div className="max-w-6xl mx-auto px-6 py-24">
-          <FadeIn>
+          <TiltReveal direction="right">
             <p className="text-signal text-sm font-mono-num tracking-wide mb-3">
               THE PIPELINE
             </p>
             <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-12 max-w-lg">
               From Raw Traffic to a Real Answer
             </h2>
-          </FadeIn>
+          </TiltReveal>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {HOW_IT_WORKS.map((step, i) => (
-              <FadeIn key={step.title} delay={i * 0.08}>
+              <TiltReveal key={step.title} delay={i * 0.08} direction={i % 2 === 0 ? "left" : "right"}>
                 <div className="h-full rounded-xl border border-border-subtle bg-surface p-6">
                   <div className="flex items-center gap-2 mb-4">
                     <span className="text-xs font-mono-num text-text-faint">
@@ -154,14 +194,14 @@ export default function Home() {
                     {step.body}
                   </p>
                 </div>
-              </FadeIn>
+              </TiltReveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* WHY IT'S DIFFERENT */}
-      <FadeIn>
+      <TiltReveal direction="left">
         <section className="max-w-6xl mx-auto px-6 py-24">
           <div className="max-w-3xl">
             <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-8">
@@ -175,34 +215,39 @@ export default function Home() {
               scratch, and a concurrency fix that cut response time
               dramatically.
             </p>
-            <Link
+            <CtaLink
               href="/blog/production-story"
+              ctaId="why_different_read_story"
               className="inline-flex items-center gap-2 mt-6 text-signal hover:underline"
             >
               Read the full story
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </CtaLink>
           </div>
         </section>
-      </FadeIn>
+      </TiltReveal>
+
+      {/* FAQ */}
+      <Faq />
 
       {/* FOOTER CTA */}
-      <FadeIn>
+      <TiltReveal direction="right">
         <section className="max-w-6xl mx-auto px-6 pb-24">
           <div className="rounded-2xl border border-border-subtle bg-surface px-8 py-16 text-center">
             <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight mb-8">
               See It Catch a Real Attack
             </h2>
-            <Link
+            <CtaLink
               href="/audit"
+              ctaId="footer_run_audit"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-accent text-ink font-medium hover:opacity-90 transition-opacity"
             >
               Run a Live Audit — Free
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </CtaLink>
           </div>
         </section>
-      </FadeIn>
+      </TiltReveal>
 
       <footer className="border-t border-border-subtle">
         <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row justify-between gap-4 text-sm text-text-muted">

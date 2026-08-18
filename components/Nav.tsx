@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Shield } from "lucide-react";
 import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
+import StatusBadge from "@/components/StatusBadge";
 
 export default function Nav() {
   const { isSignedIn, isLoaded } = useUser();
@@ -10,15 +11,18 @@ export default function Nav() {
   return (
     <nav className="w-full border-b border-border-subtle bg-ink/80 backdrop-blur-md sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <Shield className="w-5 h-5 text-signal" strokeWidth={1.75} />
-          <span className="font-semibold tracking-tight text-text-primary">
-            Aegis AI
-          </span>
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-2 group">
+            <Shield className="w-5 h-5 text-signal" strokeWidth={1.75} />
+            <span className="font-semibold tracking-tight text-text-primary">
+              Aegis AI
+            </span>
+          </Link>
+          <StatusBadge />
+        </div>
         <div className="flex items-center gap-6 text-sm">
           <Link
-            href="/#how-it-works"
+            href="/how-it-works"
             className="text-text-muted hover:text-text-primary transition-colors hidden sm:inline"
           >
             How it works
