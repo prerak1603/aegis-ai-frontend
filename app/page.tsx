@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import Nav from "@/components/Nav";
 import Hero3D from "@/components/Hero3D";
+import HeroTerminalTicker from "@/components/HeroTerminalTicker";
 import StatRow from "@/components/StatRow";
 import FadeIn from "@/components/FadeIn";
 
@@ -84,6 +85,9 @@ export default function Home() {
             </p>
             <p>📁 Max file size: 2MB / 2,000 rows per upload.</p>
           </div>
+        </div>
+        <div className="absolute bottom-10 inset-x-0 z-10">
+          <HeroTerminalTicker />
         </div>
       </section>
 
