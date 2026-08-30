@@ -3,7 +3,7 @@ import { getUserApiKey } from "@/lib/getUserApiKey";
 
 const API_BASE_URL = process.env.AEGIS_API_URL ?? "https://aegis-ai-v2.onrender.com";
 
-/** Opens Lemon Squeezy's hosted customer portal for plan changes / cancellation. */
+/** Opens the billing gateway's subscription-management page for plan changes / cancellation. */
 export async function POST() {
   const keyLookup = await getUserApiKey();
   if (!keyLookup.ok) {

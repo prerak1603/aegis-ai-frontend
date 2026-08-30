@@ -4,11 +4,11 @@ import { getUserApiKey } from "@/lib/getUserApiKey";
 const API_BASE_URL = process.env.AEGIS_API_URL ?? "https://aegis-ai-v2.onrender.com";
 
 /**
- * Creates a Lemon Squeezy checkout for the signed-in user and hands back
- * its URL for the browser to redirect to. The Lemon Squeezy API key never
- * touches this route (or Vercel at all) — the backend owns billing entirely
- * and this is a thin, API-key-authenticated proxy, same shape as
- * app/api/analyze/route.ts.
+ * Creates a checkout (whichever gateway the backend is currently wired to)
+ * for the signed-in user and hands back its URL for the browser to
+ * redirect to. No gateway credential ever touches this route (or Vercel
+ * at all) — the backend owns billing entirely and this is a thin,
+ * API-key-authenticated proxy, same shape as app/api/analyze/route.ts.
  */
 export async function POST(req: NextRequest) {
   const keyLookup = await getUserApiKey();
