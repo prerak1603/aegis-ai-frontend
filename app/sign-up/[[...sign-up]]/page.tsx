@@ -8,7 +8,12 @@ export default function SignUpPage() {
       <Nav />
       <SignupTracker />
       <main className="flex-1 flex items-center justify-center py-16 px-6">
-        <SignUp path="/sign-up" routing="path" signInUrl="/sign-in" />
+        <SignUp
+          path="/sign-up"
+          routing="path"
+          signInUrl="/sign-in"
+          fallbackRedirectUrl="/onboarding"
+        />
       </main>
     </>
   );

@@ -87,6 +87,32 @@ export interface ApiErrorResponse {
   error?: string;
 }
 
+export interface UsageLimitError {
+  error: "usage_limit_reached";
+  message: string;
+  tier: string;
+  limit: number;
+  usage_count?: number;
+  reset_date?: string;
+  upgrade_url: string;
+}
+
+export type Tier = "free" | "starter" | "pro";
+
+export interface BillingStatus {
+  tier: Tier;
+  tier_label: string;
+  usage_count: number;
+  usage_limit: number;
+  usage_reset_date: string | null;
+  has_billing_account: boolean;
+}
+
+export interface AlertSettings {
+  slack_webhook_url: string | null;
+  alert_email: string | null;
+}
+
 export interface UploadHistoryItem {
   id: string;
   filename: string;

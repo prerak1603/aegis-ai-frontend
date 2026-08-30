@@ -9,7 +9,14 @@ function hexToRgb(hex: string): [number, number, number] {
   return [(num >> 16) & 255, (num >> 8) & 255, num & 255];
 }
 
-export function generateAuditPdf(clientName: string, results: AnalyzeResponse) {
+/**
+ * Builds the report and returns the jsPDF document without saving it —
+ * the browser entry point below calls `.save()` on the result to trigger
+ * a download; a Node script (e.g. generating the marketing sample report
+ * off a real run) can instead call `.output()` and write it to disk,
+ * reusing this exact rendering logic either way.
+ */
+export function buildAuditPdf(clientName: string, results: AnalyzeResponse): jsPDF {
   const doc = new jsPDF({ unit: "pt", format: "letter" });
   const marginX = 48;
   let y = 56;
@@ -146,6 +153,12 @@ export function generateAuditPdf(clientName: string, results: AnalyzeResponse) {
   const methodLines = doc.splitTextToSize(methodText, 500) as string[];
   doc.text(methodLines, marginX, y);
 
+  return doc;
+}
+
+/** Browser entry point: builds the report and triggers a download. */
+export function generateAuditPdf(clientName: string, results: AnalyzeResponse) {
+  const doc = buildAuditPdf(clientName, results);
   const safeClient = (clientName || "Client").replace(/\s+/g, "_");
   const fileDate = new Date().toISOString().slice(0, 10).replace(/-/g, "");
   doc.save(`Aegis_Audit_${safeClient}_${fileDate}.pdf`);
