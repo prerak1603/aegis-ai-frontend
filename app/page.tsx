@@ -252,12 +252,20 @@ export default function Home() {
       <footer className="border-t border-border-subtle">
         <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row justify-between gap-4 text-sm text-text-muted">
           <span>Aegis AI — built by Prerak Nain</span>
-          <a
-            href="mailto:nainprerak15@gmail.com"
-            className="text-signal hover:underline"
-          >
-            nainprerak15@gmail.com
-          </a>
+          <div className="flex items-center gap-6">
+            <a href="/terms" className="hover:text-text-primary transition-colors">
+              Terms
+            </a>
+            <a href="/privacy" className="hover:text-text-primary transition-colors">
+              Privacy
+            </a>
+            <a
+              href="mailto:nainprerak15@gmail.com"
+              className="text-signal hover:underline"
+            >
+              nainprerak15@gmail.com
+            </a>
+          </div>
         </div>
       </footer>
     </>

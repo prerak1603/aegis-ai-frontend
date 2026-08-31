@@ -240,6 +240,12 @@ export default function PricingPage() {
             nainprerak15@gmail.com
           </a>
         </p>
+        <p className="mt-3 text-sm text-text-faint">
+          By subscribing you agree to our{" "}
+          <a href="/terms" className="text-signal hover:underline">Terms of Service</a>{" "}
+          and{" "}
+          <a href="/privacy" className="text-signal hover:underline">Privacy Policy</a>.
+        </p>
       </main>
     </>
   );
