@@ -38,6 +38,12 @@ export default function Nav() {
                 Past reports
               </Link>
               <Link
+                href="/account"
+                className="text-text-muted hover:text-text-primary transition-colors hidden sm:inline"
+              >
+                Account
+              </Link>
+              <Link
                 href="/audit"
                 className="px-4 py-2 rounded-md bg-accent text-ink font-medium hover:opacity-90 transition-opacity"
               >
